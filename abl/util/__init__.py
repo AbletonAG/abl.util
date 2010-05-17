@@ -4,3 +4,9 @@ from .stream import (
     Stream,
     BufferedStream,
     )
+
+from .bunch import (
+    unicodify,
+    Bunch,
+    Configuration,
+    )
