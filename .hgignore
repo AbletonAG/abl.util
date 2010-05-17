@@ -1,0 +1,4 @@
+.*pyc
+.*egg-info
+.hgignore
+docs/_build.*
