@@ -75,3 +75,6 @@ class BufferedStream(object):
         self.bufferoffset = position - self.pos
 
         
+    def tell(self):
+        return self.pos + self.bufferoffset
+    

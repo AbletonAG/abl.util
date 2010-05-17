@@ -41,6 +41,7 @@ class TestStreams(TestCase):
             bs = BufferedStream(wf)
             bs.read(100)
             bs.seek(0)
+            assert bs.tell() == 0
             assert bs.read() == testdata
 
         # seek into the buffer,
@@ -50,7 +51,9 @@ class TestStreams(TestCase):
             bs = BufferedStream(wf)
             bs.read(100)
             bs.seek(10)
+            assert bs.tell() == 10
             assert bs.read(300) == testdata[10:10 + 300]
+            
             
         # seek into the buffer,
         # then read a chunk over it's size
@@ -59,15 +62,9 @@ class TestStreams(TestCase):
             bs = BufferedStream(wf)
             bs.read(100)
             bs.seek(10)
-            assert bs.read(300) == testdata[10:10 + 300]
-            
-        # seek into the buffer,
-        # then read a chunk over it's size
-        with open(tf) as inf:
-            wf = Stream(inf)
-            bs = BufferedStream(wf)
-            bs.read(100)
-            bs.seek(10)
+            assert bs.tell() == 10
             assert bs.read(20) == testdata[10:10 + 20]
+            assert bs.tell() == 30
             assert bs.read(1000) == testdata[30:1000 + 30]
+            assert bs.tell() == 1030
             
