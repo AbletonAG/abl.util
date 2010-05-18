@@ -67,4 +67,16 @@ class TestStreams(TestCase):
             assert bs.tell() == 30
             assert bs.read(1000) == testdata[30:1000 + 30]
             assert bs.tell() == 1030
+
+        
+        # read the last character out of the
+        # buffer. That caused an error at some time.
+        with open(tf) as inf:
+            wf = Stream(inf)
+            bs = BufferedStream(wf)
+            bs.read(100)
+            bs.seek(99)
+            assert bs.read(1) == testdata[99]
+
+        
             

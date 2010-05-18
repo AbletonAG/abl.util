@@ -49,7 +49,17 @@ class BufferedStream(object):
             res = ''
             more = ''
             if self.bufferoffset:
-                res += self.buffer[self.bufferoffset:self.bufferoffset + n]
+                # this rather awkward way of slicing stems from the behavior of python
+                # for string slicing.
+                #
+                # "abc"[-2:-1] == "b" # ok
+                #
+                # but
+                #
+                # "abc[-1:0] == "" # not what we want here.
+                #
+                # so we need to compute the to-index more explicit.
+                res += self.buffer[self.bufferoffset:len(self.buffer) + self.bufferoffset + n]
                 self.bufferoffset += n
                 # we need to read something from the stream
                 # to fulfill the request
@@ -78,3 +88,9 @@ class BufferedStream(object):
     def tell(self):
         return self.pos + self.bufferoffset
     
+
+    def __repr__(self):
+        return "<%s pos: %i bufferoffset: %i >" % (self.__class__.__name__,
+                                                self.pos,
+                                                self.bufferoffset,
+                                                )

@@ -9,6 +9,12 @@ from .bunch import (
     Bunch,
     )
 
+from .memoization import (
+    memoized,
+    )
+
 from .misc import (
     unicodify,
+    classproperty,
+    partition,
     )
