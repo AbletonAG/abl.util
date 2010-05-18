@@ -1,32 +1,44 @@
-# -*- coding: utf-8 -*-
-from __future__ import with_statement
-
 from unittest import TestCase
 
+import pickle
+
 from abl.util import (
-    unicodify,
     Bunch,
-    Configuration
     )
 
-class TestUnicodify(TestCase):
-
-    def test_unicode_unity(self):
-        utest = u"Hülle"
-        assert unicodify(utest) is utest
-
-    def test_utf8_to_unicode(self):
-        teststring = 'H\xc3\xbclle'
-        assert unicodify(teststring) == u"Hülle"
-
-    def test_ignore_errors(self):
-        teststring = 'H\xc3\xbclle'
-        assert unicodify(teststring, codecs=()) == u"Hlle"
+class Derived(Bunch):
+    pass
 
 class TestBunch(TestCase):
-    # Todo std: write Tests
-    pass
 
-class TestConfiguration(TestCase):
-    # Todo std: write Tests
-    pass
+    def test_as_dict(self):
+        bunch = Bunch(a='a', b='b')
+        assert bunch == dict(a='a', b='b')
+
+    def test_as_obj(self):
+        bunch = Bunch(a='a', b='b')
+        assert bunch.a == 'a'
+        assert bunch.b == 'b'
+
+    def test_failing_attribute(self):
+        bunch = Bunch(a='a', b='b')
+        self.assertRaises(AttributeError, getattr, bunch, 'c')
+
+    def test_failing_key(self):
+        bunch = Bunch(a='a', b='b')
+        self.assertRaises(KeyError, lambda:bunch['c'])
+
+    def test_pickling(self):
+        bunch = Bunch(a='a', b='b')
+        dump = pickle.dumps(bunch)
+        from_pickle = pickle.loads(dump)
+        assert bunch == from_pickle
+        assert from_pickle.__class__ is Bunch
+
+    def test_pickling_derived_class(self):
+
+        derived = Derived(a='a', b='b')
+        dump = pickle.dumps(derived)
+        from_pickle = pickle.loads(dump)
+        assert derived == from_pickle
+        assert from_pickle.__class__ is Derived

@@ -6,7 +6,9 @@ from .stream import (
     )
 
 from .bunch import (
-    unicodify,
     Bunch,
-    Configuration,
+    )
+
+from .misc import (
+    unicodify,
     )
