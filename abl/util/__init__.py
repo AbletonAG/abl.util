@@ -4,3 +4,13 @@ from .stream import (
     Stream,
     BufferedStream,
     )
+
+from .memoization import (
+    memoized,
+    )
+
+from .misc import (
+    classproperty,
+    partition,
+    )
+    
