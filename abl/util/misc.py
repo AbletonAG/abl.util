@@ -29,3 +29,61 @@ def partition(predicate, sequence):
         else:
             nomatch.append(item)
     return match, nomatch
+
+
+#--------------------------------------------------------------------------------
+
+class Bunch(object):
+
+    def __init__(self, **kwargs):
+        self.__dict__.update(kwargs)
+
+
+    def __repr__(self):
+        res = ["<Bunch"]
+        for name in sorted(self.__dict__.keys()):
+            if not name.startswith("__"):
+                res.append("%s = %r" % (name, getattr(self, name)))
+        return "\n".join(res)
+
+
+    def pop(self, key):
+        return self.__dict__.pop(key)
+
+
+    def append(self, **kwargs):
+        self.__dict__.update(kwargs)
+
+
+    def get_values(self):
+        return self.__dict__.copy()
+
+
+
+
+#==============================================================================
+
+class TeeBuffer(object):
+    """
+    Stream that buffers output and optionally also passes it to a given stream.
+    """
+    def __init__(self, oldstream=None):
+        self.__buffer = []
+        self._oldstream = oldstream
+
+
+    def write(self, data):
+        self.__buffer.append(data)
+        if self._oldstream is not None:
+            self._oldstream.write(data)
+
+
+    def flush(self):
+        if self._oldstream is not None:
+            self._oldstream.flush()
+
+
+    def getvalue(self):
+        return "".join(self.__buffer)
+
+

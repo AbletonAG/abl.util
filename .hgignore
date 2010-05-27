@@ -2,3 +2,5 @@
 .*egg-info
 .hgignore
 docs/_build.*
+build
+dist
