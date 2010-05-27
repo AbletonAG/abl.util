@@ -1,4 +1,3 @@
-from textwrap import dedent
 from setuptools import setup, find_packages
 
 
@@ -9,10 +8,7 @@ setup(
     version = "0.1",
     author = "Diez B. Roggisch",
     author_email = "diez.roggisch@ableton.com",
-    description = dedent("""
-    A package that contains various helpful classes and functions
-    used widely in the Ableton Python code base.
-    """),
+    description = "A package that contains various helpful classes and functions used widely in the Ableton Python code base.",
     license="MIT",
     packages = find_packages(),
     namespace_packages = ["abl"],
