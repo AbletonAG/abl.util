@@ -5,10 +5,6 @@ from .stream import (
     BufferedStream,
     )
 
-from .bunch import (
-    Bunch,
-    )
-
 from .memoization import (
     memoized,
     )

@@ -29,12 +29,35 @@ def partition(predicate, sequence):
     return match, nomatch
 
 
-#--------------------------------------------------------------------------------
+class Bunch(dict):
+    def __setattr__(self, key, item):
+        self[key] = item
 
-class Bunch(object):
 
-    def __init__(self, **kwargs):
-        self.__dict__.update(kwargs)
+    def __getattr__(self, key):
+        try:
+            return self[key]
+        except KeyError:
+            raise AttributeError
+
+
+    def __delattr__(self, key):
+        try:
+            del self[key]
+        except KeyError:
+            raise AttributeError
+
+
+    def __getstate__(self):
+        return dict(**self)
+
+
+    def __setstate__(self, data):
+        self.update(data)
+
+
+    def copy(self):
+        return self.__class__(**super(Bunch, self).copy())
 
 
     def __repr__(self):
@@ -43,20 +66,6 @@ class Bunch(object):
             if not name.startswith("__"):
                 res.append("%s = %r" % (name, getattr(self, name)))
         return "\n".join(res)
-
-
-    def pop(self, key):
-        return self.__dict__.pop(key)
-
-
-    def append(self, **kwargs):
-        self.__dict__.update(kwargs)
-
-
-    def get_values(self):
-        return self.__dict__.copy()
-
-
 
 
 #==============================================================================
