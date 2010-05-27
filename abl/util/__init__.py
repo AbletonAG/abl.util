@@ -15,4 +15,5 @@ from .misc import (
     partition,
     Bunch,
     TeeBuffer,
+    NullHandler,
     )

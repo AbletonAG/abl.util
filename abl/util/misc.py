@@ -1,3 +1,5 @@
+import logging
+
 def classproperty(f):
     """
     Create a property on a class, not an instance.
@@ -108,3 +110,19 @@ def unicodify(text, codecs=('utf-8', 'latin-1', 'cp1252'), errors='ignore'):
         except UnicodeDecodeError:
             pass
     return unicode(text, errors=errors)
+
+
+class NullHandler(logging.Handler):
+    """
+    The NullHandler can be used to set up logging so
+    that no "no logger installed for ..." messages
+    appear.
+
+    Use it like this::
+
+      logging.getLogger().addHandler(NullHandler())
+      
+    """
+    
+    def emit(self, *args, **kwargs):
+        pass
