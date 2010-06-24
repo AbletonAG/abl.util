@@ -64,9 +64,10 @@ class Bunch(dict):
 
     def __repr__(self):
         res = ["<Bunch"]
-        for name in sorted(self.__dict__.keys()):
+        for name in self:
             if not name.startswith("__"):
-                res.append("%s = %r" % (name, getattr(self, name)))
+                res.append("    '%s' = %r" % (name, self[name]))
+        res.append("    >")
         return "\n".join(res)
 
 
