@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 TEST_REQUIREMENTS = ["nose"]
 
 setup(
-    name = "AbletonUtil",
+    name = "abl.util",
     version = "0.1",
     author = "Diez B. Roggisch",
     author_email = "diez.roggisch@ableton.com",
@@ -26,6 +26,5 @@ setup(
         'Intended Audience :: Developers',
         'Topic :: Utilities',
     ],
-    
 )
 
