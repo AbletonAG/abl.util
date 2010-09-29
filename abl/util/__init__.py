@@ -16,4 +16,5 @@ from .misc import (
     Bunch,
     TeeBuffer,
     NullHandler,
+    fixpoint,
     )

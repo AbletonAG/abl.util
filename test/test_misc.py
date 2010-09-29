@@ -5,6 +5,7 @@ from abl.util import (
     classproperty,
     partition,
     unicodify,
+    fixpoint,
     )
 
 class TestMisc(TestCase):
@@ -16,7 +17,7 @@ class TestMisc(TestCase):
         class Foo(object):
 
             FOO = value
-            
+
             @classproperty
             def test(cls):
                 return cls.FOO
@@ -42,4 +43,18 @@ class TestUnicodify(TestCase):
     def test_ignore_errors(self):
         teststring = 'H\xc3\xbclle'
         assert unicodify(teststring, codecs=()) == u"Hlle"
+
+
+
+class FixpointTests(TestCase):
+
+
+    def test_fixpoint(self):
+
+        def f(x):
+            if x == 10:
+                return x
+            return x + 1
+
+        assert fixpoint(f, 1) == 10
 

@@ -122,8 +122,24 @@ class NullHandler(logging.Handler):
     Use it like this::
 
       logging.getLogger().addHandler(NullHandler())
-      
+
     """
-    
+
     def emit(self, *args, **kwargs):
         pass
+
+
+
+
+def fixpoint(f, arg):
+    """
+    Simple function that takes a function and an argument and
+    invokes f(f(...)) until f^t == f^(t - 1)
+    """
+    new_arg = arg
+    while True:
+        new_arg = f(arg)
+        if new_arg == arg:
+            break
+        arg = new_arg
+    return new_arg
