@@ -1,12 +1,18 @@
 # -*- coding: utf-8 -*-
+
+from __future__ import with_statement
+
 from unittest import TestCase
 
 from abl.util import (
+    SafeModifier,
     classproperty,
+    fixpoint,
     partition,
     unicodify,
-    fixpoint,
+    with_,
     )
+
 
 class TestMisc(TestCase):
 
@@ -30,6 +36,7 @@ class TestMisc(TestCase):
         self.assertEqual(partition(lambda i: i < 5, xrange(10)),
                          ([0, 1, 2, 3, 4], [5, 6, 7, 8, 9]))
 
+
 class TestUnicodify(TestCase):
 
     def test_unicode_unity(self):
@@ -45,9 +52,7 @@ class TestUnicodify(TestCase):
         assert unicodify(teststring, codecs=()) == u"Hlle"
 
 
-
 class FixpointTests(TestCase):
-
 
     def test_fixpoint(self):
 
@@ -58,3 +63,62 @@ class FixpointTests(TestCase):
 
         assert fixpoint(f, 1) == 10
 
+
+class SafeModifierTests(TestCase):
+
+    class Foo(object):
+        pass
+
+
+    def test_override_existing(self):
+        foo = self.Foo()
+        foo.bar = 42
+
+        with SafeModifier(foo, 'bar', 17):
+            self.assertEqual(foo.bar, 17)
+
+        self.assertEqual(foo.bar, 42)
+
+
+    def test_set_unset(self):
+        foo = self.Foo()
+
+        with SafeModifier(foo, 'bar', 17):
+            self.assertEqual(foo.bar, 17)
+
+        self.assertFalse(hasattr(foo, 'bar'))
+
+
+class WithDecoratorTests(TestCase):
+
+    class Foo(object):
+        pass
+
+
+    def test_decorate_function(self):
+
+        foo = self.Foo()
+        foo.bar = 42
+
+        @with_(SafeModifier(foo, 'bar', 17))
+        def decorated(x):
+            self.assertEqual(foo.bar, 17)
+            self.assertEqual(x, 1)
+
+        decorated(1)
+        self.assertEqual(foo.bar, 42)
+
+
+    def test_decorate_method(self):
+
+        foo = self.Foo()
+        foo.bar = 42
+
+        class MethodDecorationTest(object):
+            @with_(SafeModifier(foo, 'bar', 13))
+            def decorated(self, x):
+                assert x == 1
+                assert foo.bar == 13
+
+        MethodDecorationTest().decorated(1)
+        self.assertEqual(foo.bar, 42)

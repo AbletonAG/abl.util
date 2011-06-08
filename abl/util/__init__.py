@@ -10,11 +10,13 @@ from .memoization import (
     )
 
 from .misc import (
-    unicodify,
-    classproperty,
-    partition,
     Bunch,
-    TeeBuffer,
     NullHandler,
+    SafeModifier,
+    TeeBuffer,
+    classproperty,
     fixpoint,
+    partition,
+    unicodify,
+    with_,
     )

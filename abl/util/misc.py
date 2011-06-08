@@ -1,4 +1,10 @@
+
+from __future__ import with_statement
+
 import logging
+
+from functools import wraps
+
 
 def classproperty(f):
     """
@@ -143,3 +149,63 @@ def fixpoint(f, arg):
             break
         arg = new_arg
     return new_arg
+
+
+class SafeModifier(object):
+    """
+    A simple context to set an attribute on
+    a given object to a value, and before
+    leaving the the context re-set it.
+    """
+
+
+    def __init__(self, o, name, value):
+        """
+
+        :param o: the object to modify
+        :param name: the name of the attribute to set
+        :param value: the value to replace.
+        """
+
+        self.o = o
+        self.name = name
+        self.value = value
+
+
+    def __enter__(self):
+        try:
+            self.old_value = getattr(self.o, self.name)
+        except AttributeError:
+            pass
+        setattr(self.o, self.name, self.value)
+
+
+    def __exit__(self, _et, _e, _tb):
+        try:
+            setattr(self.o, self.name, self.old_value)
+        except AttributeError:
+            delattr(self.o, self.name)
+        return False
+
+
+def with_(context_manager):
+    """
+    Decorator that applies a context manager. ie::
+
+        @with_(cm)
+        def foo():
+            ...
+
+    Is equivalent to::
+
+        def foo():
+            with cm:
+                ...
+
+    """
+    def _with_decorator(f):
+        def _with_(*args, **kwargs):
+            with context_manager:
+                return f(*args, **kwargs)
+        return wraps(f)(_with_)
+    return _with_decorator
