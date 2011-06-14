@@ -122,3 +122,22 @@ class WithDecoratorTests(TestCase):
 
         MethodDecorationTest().decorated(1)
         self.assertEqual(foo.bar, 42)
+
+
+    def test_decorate_many(self):
+
+        foo = self.Foo()
+        foo.bar = 42
+        foo.foo = 20
+
+        class MethodDecorationTest(object):
+            @with_(SafeModifier(foo, 'bar', 13), SafeModifier(foo, 'foo', 2))
+            def decorated(self, x):
+                assert x == 1
+                assert foo.bar == 13
+                assert foo.foo == 2
+
+        MethodDecorationTest().decorated(1)
+        self.assertEqual(foo.bar, 42)
+        self.assertEqual(foo.foo, 20)
+

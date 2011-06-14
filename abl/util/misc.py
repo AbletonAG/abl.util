@@ -1,5 +1,6 @@
-
 from __future__ import with_statement
+
+from contextlib import nested
 
 import logging
 
@@ -188,7 +189,7 @@ class SafeModifier(object):
         return False
 
 
-def with_(context_manager):
+def with_(*managers):
     """
     Decorator that applies a context manager. ie::
 
@@ -205,7 +206,7 @@ def with_(context_manager):
     """
     def _with_decorator(f):
         def _with_(*args, **kwargs):
-            with context_manager:
+            with nested(*managers):
                 return f(*args, **kwargs)
         return wraps(f)(_with_)
     return _with_decorator
