@@ -20,3 +20,9 @@ from .misc import (
     unicodify,
     with_,
     )
+
+from .lockfile import (
+    LockFile,
+    LockFileCreationException,
+    LockFileObtainException,
+    )
