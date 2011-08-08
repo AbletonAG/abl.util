@@ -70,7 +70,7 @@ class Bunch(dict):
 
 
     def __repr__(self):
-        res = ["<Bunch"]
+        res = ["<%s" % self.__class__.__name__]
         for name in self:
             if not name.startswith("__"):
                 res.append("    '%s' = %r" % (name, self[name]))
