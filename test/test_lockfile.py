@@ -1,3 +1,5 @@
+from __future__ import with_statement
+
 try:
     from multiprocessing import Process, Queue
 except ImportError:
