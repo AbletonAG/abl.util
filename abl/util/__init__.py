@@ -26,3 +26,9 @@ from .lockfile import (
     LockFileCreationException,
     LockFileObtainException,
     )
+
+from .dispatch import (
+    Event,
+    DispatcherObject,
+    DONT_PROPAGATE,
+    )
