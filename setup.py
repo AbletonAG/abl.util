@@ -5,12 +5,12 @@ TEST_REQUIREMENTS = ["nose"]
 
 setup(
     name = "abl.util",
-    version = "0.1.8",
+    version = "0.1.9",
     author = "Diez B. Roggisch",
     author_email = "diez.roggisch@ableton.com",
     description = "A package that contains various helpful classes and functions used widely in the Ableton Python code base.",
     license="MIT",
-    packages = find_packages(),
+    packages=find_packages(exclude=['test']),
     namespace_packages = ["abl"],
     install_requires = [
         ],
