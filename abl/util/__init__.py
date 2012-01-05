@@ -19,6 +19,7 @@ from .misc import (
     partition,
     unicodify,
     with_,
+    WorkingDirectory,
     )
 
 from .lockfile import (
