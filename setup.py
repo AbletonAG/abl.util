@@ -5,7 +5,7 @@ TEST_REQUIREMENTS = ["nose"]
 
 setup(
     name = "abl.util",
-    version = "0.1.9",
+    version = "0.1.10",
     author = "Diez B. Roggisch",
     author_email = "diez.roggisch@ableton.com",
     description = "A package that contains various helpful classes and functions used widely in the Ableton Python code base.",
