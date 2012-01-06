@@ -2,11 +2,14 @@
 
 from __future__ import with_statement
 
+import tempfile, os
 from unittest import TestCase
+
 
 from abl.util import (
     SafeModifier,
     classproperty,
+    WorkingDirectory,
     fixpoint,
     partition,
     unicodify,
@@ -141,3 +144,25 @@ class WithDecoratorTests(TestCase):
         self.assertEqual(foo.bar, 42)
         self.assertEqual(foo.foo, 20)
 
+
+
+
+class TestWorkingDirectory(TestCase):
+
+
+    def test_working_directory(self):
+        td = tempfile.mkdtemp()
+
+        try:
+            cwd = os.getcwd()
+
+            with WorkingDirectory(td):
+                # this basename-stuff is because
+                # under OSX, temp-files are sometimes
+                # prefixed with "/private" - and thus not equal.
+                # but the basename should be enough anyway.
+                self.assertEqual(os.path.basename(os.getcwd()), os.path.basename(td))
+
+            self.assertEqual(os.getcwd(), cwd)
+        finally:
+            os.rmdir(td)

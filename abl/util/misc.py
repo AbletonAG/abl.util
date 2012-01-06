@@ -1,5 +1,6 @@
 from __future__ import with_statement
 
+import os
 from contextlib import nested
 
 import logging
@@ -227,7 +228,7 @@ class WorkingDirectory(object):
         self.working_path = working_path
 
     def __enter__(self):
-        os.chdir(self.working_path.path)
+        os.chdir(self.working_path)
 
     def __exit__(self, exc_type, exc_value, traceback):
         os.chdir(self.cwd)
