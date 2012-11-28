@@ -4,7 +4,8 @@ import errno
 
 import platform
 is_windows = False
-if platform.system() == 'Windows':
+
+if platform.system() in ('Windows', 'Microsoft'):
     is_windows = True
 
 if is_windows:
