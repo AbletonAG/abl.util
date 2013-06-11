@@ -47,7 +47,7 @@ class LockFile(object):
             self.fd = os.open(self.name, os.O_WRONLY | os.O_CREAT | os.O_APPEND)
         except OSError, e:
             if e[0] == errno.ENOENT:
-                raise LockFileCreationException()
+                raise LockFileCreationException(e)
             else:
                 raise
         self.file = os.fdopen(self.fd, "w")
