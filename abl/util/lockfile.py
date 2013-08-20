@@ -9,27 +9,21 @@ if platform.system() in ('Windows', 'Microsoft'):
     is_windows = True
 
 if is_windows:
-    import msvcrt #@UnresolvedImport
+    import msvcrt
 else:
     import fcntl
 
 
 logger = logging.getLogger(__name__)
 
-#-------------------------------------------------------------------------------
 
 class LockFileCreationException(Exception):
     pass
 
 
-#-------------------------------------------------------------------------------
-
 class LockFileObtainException(Exception):
     pass
 
-
-
-#-------------------------------------------------------------------------------
 
 class LockFile(object):
 
@@ -70,7 +64,7 @@ class LockFile(object):
                 raise LockFileObtainException()
             raise
 
-
+        self.file.write(os.getpid())
         return self.file
 
 
@@ -88,4 +82,3 @@ class LockFile(object):
             except OSError, e:
                 if e[0] != errno.ENOENT:
                     raise
-
