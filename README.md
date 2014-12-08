@@ -1,11 +1,12 @@
+# abl.util
+
 This is a grab-bag of little functions that have been useful at one time or another.
 
 Many of them can probably be found in other libraries.
 
 This project should probably have a better focus, and a more specific name, to reflect that focus.
 
-Release a new version
----------------------
+## Release a new version
 
 abl.util uses versioneer to manage version numbers.
 
@@ -13,15 +14,6 @@ When you are developing on your branch, running sdist will create
 tarballs with versions like:
 
     2.2.15-3-g123456
-
-You can totally upload these versions to galaxy to test with, and put
-them in your requirements.txt. Other devs' work will never produce the
-same goofy version number:
-
-```bash
-python setup.py sdist
-scp dist/abl.shop-<version>.tar.gz git-user@galaxy:/packages/
-```
 
 When you actually want a new real, actual, numbered version, do this:
 
@@ -33,7 +25,7 @@ When you actually want a new real, actual, numbered version, do this:
 * `git push --tags`
 
 Now when you run sdist the version number will be whatever you
-specified. You can upload that to galaxy.
+specified.
 
 **Running `git push --tags` is super important. If you don't, nobody
 else will be able to figure out where your version came from,
@@ -42,3 +34,7 @@ version numbers will get weird, and we will be sad.**
 Finally:
 
 * Change version in `requirements.txt` in affected packages
+
+## License
+
+abl.util is distributed under the MIT license (see LICENSE).
