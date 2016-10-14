@@ -34,7 +34,7 @@ from .dispatch import (
     DONT_PROPAGATE,
     )
 
-from .authentication import (
+from .signature import (
    sign,
    verify,
    )

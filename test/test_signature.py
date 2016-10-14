@@ -3,7 +3,7 @@ from unittest import TestCase
 from abl.util import sign, verify
 
 
-class AuthenticationTests(TestCase):
+class SignatureTests(TestCase):
 
     def test_signature(self):
         params = {'foo': 'bar', 'spam': 3}
