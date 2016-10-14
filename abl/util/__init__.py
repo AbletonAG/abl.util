@@ -33,3 +33,8 @@ from .dispatch import (
     DispatcherObject,
     DONT_PROPAGATE,
     )
+
+from .authentication import (
+   sign,
+   verify,
+   )
