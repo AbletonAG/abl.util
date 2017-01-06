@@ -60,7 +60,7 @@ class LockFile(object):
             else:
                 fcntl.flock(self.file, lock_flags)
         except IOError, e:
-            if e[0] == errno.EAGAIN:
+            if e[0] == errno.EACCES:
                 raise LockFileObtainException()
             raise
 
