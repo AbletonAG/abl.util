@@ -60,11 +60,11 @@ class LockFile(object):
             else:
                 fcntl.flock(self.file, lock_flags)
         except IOError, e:
-            if e[0] == errno.EAGAIN:
+            error_code = errno.EACCES if is_windows else errno.EAGAIN
+            if e[0] == error_code:
                 raise LockFileObtainException()
             raise
 
-        self.file.write(os.getpid())
         return self.file
 
 
