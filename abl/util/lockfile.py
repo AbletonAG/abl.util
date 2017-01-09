@@ -64,7 +64,6 @@ class LockFile(object):
                 raise LockFileObtainException()
             raise
 
-        self.file.write(os.getpid())
         return self.file
 
 
