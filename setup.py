@@ -11,17 +11,15 @@ versioneer.parentdir_prefix = "abl.util"
 TEST_REQUIREMENTS = ["nose"]
 
 setup(
-    name = "abl.util",
-    version = versioneer.get_version(),
-    cmdclass = versioneer.get_cmdclass(),
-    author = "Diez B. Roggisch",
-    author_email = "diez.roggisch@ableton.com",
-    description = "A package that contains various helpful classes and functions used widely in the Ableton Python code base.",
+    name="abl.util",
+    version=versioneer.get_version(),
+    cmdclass=versioneer.get_cmdclass(),
+    author="Diez B. Roggisch",
+    author_email="diez.roggisch@ableton.com",
+    description="A package that contains various helpful classes and functions used widely in the Ableton Python code base.",
     license="MIT",
+    url="https://github.com/AbletonAG/abl.util",
     packages=find_packages(exclude=['test']),
-    #namespace_packages = ["abl"],
-    install_requires = [
-        ],
     extras_require = dict(
         testing=TEST_REQUIREMENTS,
         ),
@@ -31,6 +29,8 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.6',
         'Intended Audience :: Developers',
         'Topic :: Utilities',
     ],

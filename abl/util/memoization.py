@@ -1,7 +1,6 @@
 from collections import defaultdict
 from functools import partial
 
-#==============================================================================
 
 # A dict with scopes as keys and lists of memoized objects as values.
 MEMOIZED = defaultdict(list)
@@ -42,11 +41,11 @@ def memoized(scope='global'):
             if instance is not None:
                 return partial(self.__call__, instance)
             return self
-                
+
 
         def __repr__(self):
-            """Return the function's docstring."""
-            return self._func.__doc__
+            """Return the function's docstring or name."""
+            return self._func.__doc__ or self._func.__name__
 
 
         def clear_cache(self):
@@ -85,4 +84,3 @@ def memoized(scope='global'):
         raise Exception('"memoized"-decorator was not called on initialization.')
 
     return Memoized
-

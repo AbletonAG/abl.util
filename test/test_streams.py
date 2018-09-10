@@ -1,4 +1,3 @@
-from __future__ import with_statement
 import tempfile
 
 from unittest import TestCase
@@ -53,8 +52,8 @@ class TestStreams(TestCase):
             bs.seek(10)
             assert bs.tell() == 10
             assert bs.read(300) == testdata[10:10 + 300]
-            
-            
+
+
         # seek into the buffer,
         # then read a chunk over it's size
         with open(tf) as inf:
@@ -68,7 +67,7 @@ class TestStreams(TestCase):
             assert bs.read(1000) == testdata[30:1000 + 30]
             assert bs.tell() == 1030
 
-        
+
         # read the last character out of the
         # buffer. That caused an error at some time.
         with open(tf) as inf:
@@ -78,5 +77,5 @@ class TestStreams(TestCase):
             bs.seek(99)
             assert bs.read(1) == testdata[99]
 
-        
-            
+
+

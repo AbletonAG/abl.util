@@ -28,7 +28,7 @@ class MemoizationTests(TestCase):
     def test_memoization_fails_gracefully_on_non_hashable_arguments(self):
         global COUNTER
         COUNTER = 0
-        
+
         @memoized()
         def test(arg):
             global COUNTER
@@ -44,7 +44,7 @@ class MemoizationTests(TestCase):
     def test_memoization_doesnt_mask_exceptions(self):
         global COUNTER
         COUNTER = 0
-        
+
         @memoized()
         def test():
             global COUNTER
@@ -54,10 +54,10 @@ class MemoizationTests(TestCase):
         self.failUnlessRaises(TypeError, test)
         # we are only called *once*
         assert COUNTER == 1
-        
+
 
         COUNTER = 0
-        
+
         @memoized()
         def test():
             global COUNTER
@@ -67,7 +67,7 @@ class MemoizationTests(TestCase):
         self.failUnlessRaises(KeyError, test)
         # we are only called *once*
         assert COUNTER == 1
-        
+
 
     def test_clearing_memoization_cache(self):
         global COUNTER
@@ -98,13 +98,13 @@ class MemoizationTests(TestCase):
         assert test_two() == 5
         assert test() == 4
         assert test_two() == 5
-        
-        
-        
+
+
+
     def test_memoization_on_objects(self):
         global COUNTER
         COUNTER = 0
-        
+
         class Test(object):
 
 
@@ -131,12 +131,12 @@ class MemoizationTests(TestCase):
         assert b.test_method() == 2
         assert a.test_classmethod() == 3
         assert b.test_classmethod() == 3
-        
+
 
     def test_scope_isolation(self):
         global COUNTER
         COUNTER = 0
-        
+
         @memoized("foo")
         def test_foo():
             global COUNTER
