@@ -1,11 +1,16 @@
-from __future__ import with_statement
-
-import os
-from contextlib import nested
-
 import logging
+import os
 
 from functools import wraps
+
+try:
+    basestring
+except NameError: # Python 3
+    basestring = (str, bytes)
+try:
+    unicode
+except NameError: # Python 3
+    unicode = str
 
 
 def classproperty(f):
@@ -110,7 +115,8 @@ def unicodify(text, codecs=('utf-8', 'latin-1', 'cp1252'), errors='ignore'):
     cast any kind of string into a unicode string, even if the encoding is not known.
     If none of the codecs work, use 'unicode' with the errors attribute.
     """
-    assert isinstance(text, basestring)
+    if not isinstance(text, basestring):
+        raise TypeError
     if isinstance(text, unicode):
         return text
     for codec in codecs:
@@ -118,7 +124,7 @@ def unicodify(text, codecs=('utf-8', 'latin-1', 'cp1252'), errors='ignore'):
             return text.decode(codec)
         except UnicodeDecodeError:
             pass
-    return unicode(text, errors=errors)
+    return unicode(text, encoding='ascii', errors=errors)
 
 
 class NullHandler(logging.Handler):
@@ -135,8 +141,6 @@ class NullHandler(logging.Handler):
 
     def emit(self, *args, **kwargs):
         pass
-
-
 
 
 def fixpoint(f, arg):
@@ -190,28 +194,23 @@ class SafeModifier(object):
         return False
 
 
-def with_(*managers):
+def with_(manager):
     """
     Decorator that applies a context manager. ie::
-
         @with_(cm)
         def foo():
             ...
-
     Is equivalent to::
-
         def foo():
             with cm:
                 ...
-
     """
     def _with_decorator(f):
         def _with_(*args, **kwargs):
-            with nested(*managers):
+            with manager:
                 return f(*args, **kwargs)
         return wraps(f)(_with_)
     return _with_decorator
-
 
 
 class WorkingDirectory(object):

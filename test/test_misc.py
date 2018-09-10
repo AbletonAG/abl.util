@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import with_statement
-
 import tempfile, os
 from unittest import TestCase
-
 
 from abl.util import (
     SafeModifier,
@@ -18,7 +15,6 @@ from abl.util import (
 
 
 class TestMisc(TestCase):
-
 
     def test_classproperty(self):
 
@@ -36,7 +32,7 @@ class TestMisc(TestCase):
 
 
     def test_partition(self):
-        self.assertEqual(partition(lambda i: i < 5, xrange(10)),
+        self.assertEqual(partition(lambda i: i < 5, range(10)),
                          ([0, 1, 2, 3, 4], [5, 6, 7, 8, 9]))
 
 
@@ -47,12 +43,16 @@ class TestUnicodify(TestCase):
         assert unicodify(utest) is utest
 
     def test_utf8_to_unicode(self):
-        teststring = 'H\xc3\xbclle'
-        assert unicodify(teststring) == u"Hülle"
+        teststring = b'H\xc3\xbclle'
+        self.assertEqual(unicodify(teststring), u"Hülle")
+
+    def test_latin1_to_unicode(self):
+        teststring = b'H\xfclle'
+        self.assertEqual(unicodify(teststring), u"Hülle")
 
     def test_ignore_errors(self):
-        teststring = 'H\xc3\xbclle'
-        assert unicodify(teststring, codecs=()) == u"Hlle"
+        teststring = b'H\xc3\xbclle'
+        self.assertEqual(unicodify(teststring, codecs=()), u"Hlle")
 
 
 class FixpointTests(TestCase):
@@ -97,9 +97,7 @@ class WithDecoratorTests(TestCase):
     class Foo(object):
         pass
 
-
     def test_decorate_function(self):
-
         foo = self.Foo()
         foo.bar = 42
 
@@ -110,7 +108,6 @@ class WithDecoratorTests(TestCase):
 
         decorated(1)
         self.assertEqual(foo.bar, 42)
-
 
     def test_decorate_method(self):
 
@@ -127,28 +124,7 @@ class WithDecoratorTests(TestCase):
         self.assertEqual(foo.bar, 42)
 
 
-    def test_decorate_many(self):
-
-        foo = self.Foo()
-        foo.bar = 42
-        foo.foo = 20
-
-        class MethodDecorationTest(object):
-            @with_(SafeModifier(foo, 'bar', 13), SafeModifier(foo, 'foo', 2))
-            def decorated(self, x):
-                assert x == 1
-                assert foo.bar == 13
-                assert foo.foo == 2
-
-        MethodDecorationTest().decorated(1)
-        self.assertEqual(foo.bar, 42)
-        self.assertEqual(foo.foo, 20)
-
-
-
-
 class TestWorkingDirectory(TestCase):
-
 
     def test_working_directory(self):
         td = tempfile.mkdtemp()

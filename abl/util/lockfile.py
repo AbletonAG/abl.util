@@ -39,8 +39,8 @@ class LockFile(object):
 
         try:
             self.fd = os.open(self.name, os.O_WRONLY | os.O_CREAT | os.O_APPEND)
-        except OSError, e:
-            if e[0] == errno.ENOENT:
+        except OSError as e:
+            if e.errno == errno.ENOENT:
                 raise LockFileCreationException(e)
             else:
                 raise
@@ -59,9 +59,9 @@ class LockFile(object):
                 msvcrt.locking(self.file.fileno(), lock_flags, 1)
             else:
                 fcntl.flock(self.file, lock_flags)
-        except IOError, e:
+        except IOError as e:
             error_code = errno.EACCES if is_windows else errno.EAGAIN
-            if e[0] == error_code:
+            if e.errno == error_code:
                 raise LockFileObtainException()
             raise
 
@@ -79,6 +79,6 @@ class LockFile(object):
         if self.cleanup:
             try:
                 os.remove(self.name)
-            except OSError, e:
-                if e[0] != errno.ENOENT:
+            except OSError as e:
+                if e.errno != errno.ENOENT:
                     raise
