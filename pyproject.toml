@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools-scm>=8", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "abl.util"
+authors = [
+    { name = "The Ableton Web Team", email = "webteam@ableton.com" }
+]
+description = "A package that contains various helpful classes and functions used widely in the Ableton Python code base."
+license = { text = "MIT" }
+urls = { "GitHub" = "https://github.com/AbletonAG/abl.util" }
+dynamic = ["version"]
+
+[tool.setuptools.packages.find]
+include = ["abl*"]
+exclude = ["test"]
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[tool.setuptools_scm]
+version_file = "abl/util/_version.py"

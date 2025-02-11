@@ -6,35 +6,51 @@ Many of them can probably be found in other libraries.
 
 This project should probably have a better focus, and a more specific name, to reflect that focus.
 
-## Release a new version
+## Set up a Working Environment
 
-abl.util uses versioneer to manage version numbers.
+To set up your working environment, run:
 
-When you are developing on your branch, running sdist will create
-tarballs with versions like:
+```bash
+pip install -e '.[test]'
+```
 
-    2.2.15-3-g123456
+## Release a New Version
 
-When you actually want a new real, actual, numbered version, do this:
+You can build a new version by running:
 
-* Make sure all tests pass
-* Make a pull request, get it reviewed, and merged back to master
-* checkout master and pull so you are looking at the HEAD of master
-* check which tags already exist with `git tag`
-* `git tag <your_new_version_number>`
-* `git push --tags`
+```bash
+python -m build
+```
 
-Now when you run sdist the version number will be whatever you
-specified.
+When developing on your branch, running the build will create tarballs with versions like:
 
-**Running `git push --tags` is super important. If you don't, nobody
-else will be able to figure out where your version came from,
-version numbers will get weird, and we will be sad.**
+```text
+3.6.dev1+g13691ed.d20250211
+```
 
-Finally:
+To release a new official version, follow these steps:
 
-* Change version in `requirements.txt` in affected packages
+1. Ensure all tests pass.
+2. Make a pull request, get it reviewed, and merge it back to `master`.
+3. Checkout `master` and pull the latest changes.
+4. Check existing tags with:
 
-## License
+```bash
+git tag
+```
 
-abl.util is distributed under the MIT license (see LICENSE).
+5. Tag the new version:
+
+```bash
+git tag <your_new_version_number>
+```
+
+6. Push the tags:
+
+```bash
+git push --tags
+```
+
+Now when you run build the version number will be whatever you specified.
+
+⚠️ Running `git push --tags` is crucial. If you don't, nobody else will be able to figure out where your version came from, version numbers will get weird, and we will be sad.
